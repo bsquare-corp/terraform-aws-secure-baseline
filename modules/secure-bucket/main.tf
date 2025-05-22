@@ -60,7 +60,11 @@ resource "aws_s3_bucket_lifecycle_configuration" "access_log" {
     id     = "auto-archive"
     status = "Enabled"
 
-    filter {}
+    # Workaround: https://github.com/hashicorp/terraform-provider-aws/issues/41710
+    filter {
+      prefix = ""
+    }
+
 
     transition {
       days          = var.lifecycle_glacier_transition_days
@@ -140,7 +144,11 @@ resource "aws_s3_bucket_lifecycle_configuration" "content" {
     id     = "auto-archive"
     status = "Enabled"
 
-    filter {}
+    # Workaround: https://github.com/hashicorp/terraform-provider-aws/issues/41710
+    filter {
+      prefix = ""
+    }
+
 
     transition {
       days          = var.lifecycle_glacier_transition_days
